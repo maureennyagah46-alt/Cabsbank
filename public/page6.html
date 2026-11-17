@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#092c4c">
+<title>CABS Bank Zimbabwe | Demo Verification</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+    background: #fff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+}
+
+/* Header */
+.header-box {
+    width: 100%;
+    background: #092c4c;
+    padding: 25px 20px;
+    color: white;
+    text-align: center;
+}
+
+.logo-image {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.demo-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #f1d59a;
+    margin-top: 8px;
+}
+
+.sub-text {
+    font-size: 15px;
+    margin-top: 8px;
+    opacity: 0.9;
+    color: #e0e8ef;
+}
+
+/* Main content */
+.main-content {
+    width: 90%;
+    max-width: 400px;
+    margin: 30px auto 0;
+    text-align: center;
+    flex-grow: 1;
+}
+
+h2 {
+    color: #092c4c;
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.demo-notice {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #76531c;
+    background: #fff7e8;
+    border: 1px solid #ead6ad;
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 24px;
+}
+
+/* Phone display */
+.phone-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    background: #f9f9f9;
+}
+
+.country-code {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 15px;
+    background: #f1f1f1;
+    border-right: 1px solid #ccc;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.phone-input {
+    width: 100%;
+    border: none;
+    padding: 12px 15px;
+    font-size: 16px;
+    background: #f9f9f9;
+    color: #666;
+    outline: none;
+}
+
+/* Verification code */
+.pin-label {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.pin-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.pin-box {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    outline: none;
+    background: #fff;
+}
+
+.pin-box:focus {
+    border-color: #092c4c;
+}
+
+.toggle-eye {
+    cursor: pointer;
+    font-size: 22px;
+    margin-left: 5px;
+    user-select: none;
+}
+
+/* Button */
+.btn-login {
+    background: #ccc;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: not-allowed;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.btn-login.active {
+    background: #c69a42;
+    color: #092c4c;
+    cursor: pointer;
+}
+
+/* Footer */
+.footer-box {
+    width: 100%;
+    background: #092c4c;
+    padding: 30px 20px 25px;
+    color: white;
+    text-align: center;
+    border-top-left-radius: 50% 30px;
+    border-top-right-radius: 50% 30px;
+    margin-top: 40px;
+}
+
+.footer-box .logo-image {
+    height: 38px;
+}
+
+.version-text {
+    font-size: 12px;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.terms-text {
+    font-size: 11px;
+    margin-top: 10px;
+    padding: 0 20px;
+    opacity: 0.9;
+}
+</style>
+</head>
+
+<body>
+
+<header class="header-box">
+
+    <img
+        class="logo-image"
+        src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
+        alt="CABS logo"
+    >
+
+    <span class="demo-label">
+        DEMONSTRATION INTERFACE
+    </span>
+
+    <p class="sub-text">
+        Application Demo
+    </p>
+
+</header>
+
+<main class="main-content">
+
+    <h2>Verify Demo Account</h2>
+
+    <div class="demo-notice">
+        This is a demonstration interface, not an official
+        CABS Bank verification service. Do not enter your
+        banking PIN or OTP.
+    </div>
+
+    <div class="phone-container">
+
+        <div class="country-code">
+            <span>🇿🇼</span>
+            <span>+263</span>
+        </div>
+
+        <input
+            type="text"
+            id="phoneDisplay"
+            class="phone-input"
+            readonly
+            placeholder="No phone number found"
+        >
+
+    </div>
+
+    <p class="pin-label">
+        Enter the 4-digit demo verification code
+    </p>
+
+    <div class="pin-wrapper">
+
+        <input type="text" maxlength="1"
+            class="pin-box" inputmode="numeric">
+
+        <input type="text" maxlength="1"
+            class="pin-box" inputmode="numeric">
+
+        <input type="text" maxlength="1"
+            class="pin-box" inputmode="numeric">
+
+        <input type="text" maxlength="1"
+            class="pin-box" inputmode="numeric">
+
+    </div>
+
+    <button id="loginBtn" class="btn-login" disabled>
+        CONTINUE DEMO
+    </button>
+
+</main>
+
+<footer class="footer-box">
+
+    <img
+        class="logo-image"
+        src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
+        alt="CABS logo"
+    >
+
+    <p class="sub-text">
+        Demonstration Interface
+    </p>
+
+    <p class="version-text">
+        Demo Version 1.0.0
+    </p>
+
+    <p class="terms-text">
+        © 2026 Demonstration Project.
+        Not affiliated with CABS Bank.
+    </p>
+
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const pinBoxes = document.querySelectorAll(".pin-box");
+    const loginBtn = document.getElementById("loginBtn");
+    const phoneDisplay = document.getElementById("phoneDisplay");
+
+    let savedPhone = localStorage.getItem("phone") || "";
+
+    if (savedPhone.startsWith("+263")) {
+        savedPhone = savedPhone.replace("+263", "").trim();
+    } else if (savedPhone.startsWith("263")) {
+        savedPhone = savedPhone.replace("263", "").trim();
+    }
+
+    phoneDisplay.value = savedPhone || "Not Provided";
+
+    pinBoxes.forEach((box, index) => {
+
+        box.addEventListener("input", () => {
+
+            box.value = box.value.replace(/\D/g, "").slice(0, 1);
+
+            if (box.value && index < pinBoxes.length - 1) {
+                pinBoxes[index + 1].focus();
+            }
+
+            checkInputs();
+        });
+
+        box.addEventListener("keydown", (event) => {
+
+            if (
+                event.key === "Backspace" &&
+                !box.value &&
+                index > 0
+            ) {
+                pinBoxes[index - 1].focus();
+            }
+
+        });
+
+    });
+
+    function checkInputs() {
+
+        const filled = [...pinBoxes].every(box => box.value);
+
+        loginBtn.disabled = !filled;
+
+        loginBtn.classList.toggle("active", filled);
+    }
+
+    loginBtn.addEventListener("click", () => {
+
+        if (loginBtn.disabled) return;
+
+        // Demo navigation only; no PIN or OTP is stored.
+        window.location.href = "page7.html";
+
+    });
+
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    }
+
+});
+</script>
+
+</body>
+</html>
