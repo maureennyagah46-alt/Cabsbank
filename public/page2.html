@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#092c4c">
+<title>CABS Bank Zimbabwe | Loan Application</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+    background: #f1f3f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-header {
+    width: 100%;
+    background: #092c4c;
+    padding: 15px 20px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.back-btn {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-title img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+
+.menu-icon {
+    font-size: 24px;
+}
+
+.demo-label {
+    background: #fff3cd;
+    color: #664d03;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card {
+    background: white;
+    width: 92%;
+    max-width: 450px;
+    margin: 20px 0;
+    padding: 25px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-title {
+    font-size: 24px;
+    color: #092c4c;
+    margin: 0 0 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.subtext {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.step-bar {
+    flex: 1;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+}
+
+.step-bar.active {
+    background: #d7a72d;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    font-size: 16px;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fcfcfc;
+    color: #333;
+    outline: none;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #092c4c;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+textarea.form-control {
+    resize: none;
+    height: 100px;
+    font-family: inherit;
+}
+
+.btn-next {
+    background: #092c4c;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-next:active {
+    opacity: 0.9;
+}
+
+.footer {
+    width: 100%;
+    margin-top: auto;
+    background: #092c4c;
+    color: white;
+    text-align: center;
+    padding: 20px 15px;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.footer strong {
+    color: #e4bd57;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+
+@media(max-width: 360px) {
+    .header-title img {
+        height: 34px;
+    }
+
+    .card {
+        padding: 20px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <a href="/" class="back-btn">← Back</a>
+
+    <div class="header-title">
+        <img
+            src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
+            alt="CABS Bank logo"
+        >
+    </div>
+
+    <span class="menu-icon">☰</span>
+</header>
+
+<div class="demo-label">
+</div>
+
+<main class="card">
+
+    <h1 class="main-title">Loan Application</h1>
+
+    <div class="subtext">
+        Interface · Step 1 of 3
+    </div>
+
+    <div class="step-indicator">
+        <div class="step-bar active"></div>
+        <div class="step-bar"></div>
+        <div class="step-bar"></div>
+    </div>
+
+    <form id="loanForm">
+
+        <div class="form-group">
+            <label for="loanType">Loan Type</label>
+
+            <select id="loanType" class="form-control" required>
+                <option value="Business Loan" selected>
+                    Business Loan
+                </option>
+                <option value="Personal Loan">
+                    Personal Loan
+                </option>
+                <option value="Educational Loan">
+                    Educational Loan
+                </option>
+                <option value="Emergency Loan">
+                    Emergency Loan
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="loanAmt">Loan Amount (USD)</label>
+
+            <input
+                type="number"
+                id="loanAmt"
+                class="form-control"
+                placeholder="Enter amount"
+                min="1"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="loanTerm">Loan Term</label>
+
+            <select id="loanTerm" class="form-control" required>
+                <option value="6 months">6 months</option>
+                <option value="12 months">12 months</option>
+                <option value="18 months">18 months</option>
+                <option value="24 months">24 months</option>
+                <option value="36 months">36 months</option>
+                <option value="48 months" selected>48 months</option>
+                <option value="60 months">60 months</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="loanPurpose">Loan Purpose</label>
+
+            <textarea
+                id="loanPurpose"
+                class="form-control"
+                placeholder="Describe the purpose of your demonstration application..."
+                required
+            ></textarea>
+        </div>
+
+        <button type="submit" class="btn-next">
+            Continue
+        </button>
+
+    </form>
+
+</main>
+
+<footer class="footer">
+    <strong>CABS BANK ZIMBABWE</strong><br>
+
+    <br>
+    Oficial CABS bank website and loan application service.<br>
+
+    © 2026 CABS Bank Zimbabwe. All rights reserved.
+</footer>
+
+<script>
+window.onload = () => {
+
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
+
+    const savedAmount = localStorage.getItem("amount");
+    const savedDuration = localStorage.getItem("loanDuration");
+
+    if (savedAmount) {
+        document.getElementById("loanAmt").value = savedAmount;
+    }
+
+    if (savedDuration) {
+        const selectEl = document.getElementById("loanTerm");
+
+        for (let i = 0; i < selectEl.options.length; i++) {
+            if (
+                selectEl.options[i].value.toLowerCase() ===
+                savedDuration.toLowerCase()
+            ) {
+                selectEl.selectedIndex = i;
+                break;
+            }
+        }
+    }
+};
+
+document.getElementById("loanForm").addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        const loanType =
+            document.getElementById("loanType").value;
+
+        const loanAmt =
+            document.getElementById("loanAmt").value;
+
+        const loanTerm =
+            document.getElementById("loanTerm").value;
+
+        const loanPurpose =
+            document.getElementById("loanPurpose").value;
+
+        if (!this.reportValidity()) return;
+
+        // Demonstration data only.
+        localStorage.setItem("appliedLoanType", loanType);
+        localStorage.setItem("appliedAmount", loanAmt);
+        localStorage.setItem("appliedTerm", loanTerm);
+        localStorage.setItem("appliedPurpose", loanPurpose);
+
+        window.location.href = "/page3";
+    }
+);
+</script>
+
+</body>
+</html>
