@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CABS Bank Zimbabwe - Demo Result</title>
+
+    <style>
+        :root {
+            --cabs-blue: #092c4c;
+            --dark-blue: #061e35;
+            --light-blue: #17476c;
+            --bg-light: #F4F7FA;
+            --text-dark: #2D3436;
+            --text-gray: #636E72;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #17476c 0%, #092c4c 100%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .screen-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .main-content {
+            padding: 25px;
+        }
+
+        .bank-logo {
+            text-align: center;
+            padding: 10px 0 20px;
+        }
+
+        .bank-logo img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .demo-label {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 11px;
+            color: #946200;
+            background: #fff4d8;
+            padding: 7px 12px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .header-section {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .check-circle {
+            width: 70px;
+            height: 70px;
+            background-color: var(--cabs-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 15px;
+        }
+
+        .congrats-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin: 10px 0;
+        }
+
+        .sub-text {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .amount-box {
+            background: linear-gradient(135deg, #17476c, #092c4c);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .amount-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .amount-value {
+            font-size: 36px;
+            font-weight: 800;
+            margin-top: 5px;
+        }
+
+        .info-card {
+            background-color: #FEFCE8;
+            border: 1px solid #FEF08A;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #854D0E;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .info-body {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #713F12;
+        }
+
+        .details-list {
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .icon-bg {
+            width: 45px;
+            height: 45px;
+            background-color: #EFF6FF;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        .detail-val {
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .action-title {
+            font-weight: bold;
+            margin: 20px 0 15px;
+            color: var(--cabs-blue);
+        }
+
+        .btn-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-white {
+            background: white;
+            border: 1px solid #E2E8F0;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--cabs-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .next-steps {
+            background-color: #F8FAF5;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .home-btn {
+            background-color: var(--cabs-blue);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 11px;
+            padding: 20px 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="screen-container">
+    <div class="main-content">
+
+        <div class="bank-logo">
+            <img
+                src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
+                alt="CABS Bank Zimbabwe Logo">
+        </div>
+
+        <div class="header-section">
+
+            <div class="demo-label">DEMONSTRATION ONLY</div>
+
+            <div class="check-circle">✓</div>
+
+            <div class="congrats-title">
+                🎉 Demo Completed!
+            </div>
+
+            <div class="sub-text">
+                This is a demonstration of a loan application result.
+                No actual loan has been approved or disbursed.
+            </div>
+
+        </div>
+
+        <div class="amount-box">
+            <div class="amount-label">DEMO LOAN AMOUNT</div>
+            <div class="amount-value" id="display-amount">$100</div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-header">
+                ⚠️ DEMONSTRATION NOTICE
+            </div>
+
+            <div class="info-body">
+                This page is for demonstration purposes only.
+                It does not represent an actual CABS Bank loan
+                approval, security deposit requirement or
+                disbursement instruction.
+            </div>
+        </div>
+
+        <div class="details-list">
+
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
+                <span>💳</span>
+                <b>Loan & Account Details</b>
+            </div>
+
+            <div class="detail-item">
+                <div class="icon-bg">📱</div>
+                <div>
+                    <div class="detail-label">PHONE NUMBER</div>
+                    <div class="detail-val" id="display-phone">Not provided</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="icon-bg">💰</div>
+                <div>
+                    <div class="detail-label">MONTHLY REPAYMENT</div>
+                    <div class="detail-val" id="display-monthly">$9.00</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="icon-bg">📅</div>
+                <div>
+                    <div class="detail-label">LOAN TENURE</div>
+                    <div class="detail-val" id="display-term">12 Months</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="icon-bg">📈</div>
+                <div>
+                    <div class="detail-label">INTEREST RATE</div>
+                    <div class="detail-val">Demo rate: 8% APR</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="action-title">Quick Actions</div>
+
+        <div class="btn-list">
+            <div class="btn-white">💰 Demo Deposit</div>
+            <div class="btn-white">💸 Demo Transfer</div>
+            <div class="btn-white">📄 View Demo Loan Schedule</div>
+        </div>
+
+        <div class="next-steps">
+
+            <div style="font-weight:bold;color:var(--cabs-blue);margin-bottom:5px;">
+                📱 Next Steps:
+            </div>
+
+            <div style="font-size:13px;color:var(--text-gray);">
+                For actual loan products and application status,
+                contact CABS through its independently verified
+                official customer service channels.
+            </div>
+
+        </div>
+
+        <button class="home-btn"
+            onclick="window.location.href='/index.html'">
+            🏠 Back to Home
+        </button>
+
+        <div class="footer">
+            © 2026 CABS Bank Zimbabwe — Demonstration Interface
+        </div>
+
+    </div>
+</div>
+
+<script>
+window.onload = function() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const paramPhone = urlParams.get('phone');
+
+    const savedPhone =
+        paramPhone ||
+        localStorage.getItem('user_phone_number') ||
+        localStorage.getItem('phone');
+
+    const loanAmount =
+        localStorage.getItem('loan_amount') || "100";
+
+    const loanTerm =
+        localStorage.getItem('loan_term') || "12";
+
+    const monthlyPay =
+        localStorage.getItem('monthly_repayment') || "9";
+
+    const formattedAmount =
+        "$" + Number(loanAmount).toLocaleString();
+
+    const formattedMonthly =
+        "$" + Number(monthlyPay).toLocaleString();
+
+    let formattedPhone = "Not provided";
+
+    if (savedPhone) {
+        const cleanPhone = savedPhone.replace(/^\+/, '');
+
+        formattedPhone = cleanPhone.startsWith('263')
+            ? `+${cleanPhone}`
+            : `+263 ${cleanPhone}`;
+    }
+
+    document.getElementById('display-amount').innerText =
+        formattedAmount;
+
+    document.getElementById('display-phone').innerText =
+        formattedPhone;
+
+    document.getElementById('display-term').innerText =
+        loanTerm + " Months";
+
+    document.getElementById('display-monthly').innerText =
+        formattedMonthly;
+};
+</script>
+
+</body>
+</html>
